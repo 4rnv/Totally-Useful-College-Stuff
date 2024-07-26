@@ -37,6 +37,7 @@ def sender():
         bin = int(string, 2)
     except ValueError:
         print('Please make sure your number contains digits 0-1 only.')
+        exit()
     checksum = ones_complement(string)
     data = string + checksum
     #print(data)
@@ -57,8 +58,8 @@ def twe(data):
     receive(corrupted_data)
 
 def receive(data):
-    print(data)
-    third = int(len(data)/3)
+    print(f"Received data: {data}")
+    third = int(len(data)//3)
     binhigh, binmiddle, binlow = data[:third], data[third:2*third], data[2*third:]
     print(binhigh, binmiddle, binlow)
 
@@ -68,19 +69,20 @@ def receive(data):
     int_low = int(binlow, 2)
     
     sum_result = int_high + int_middle + int_low
-    sum_bin = bin(sum_result)[2:] #Binary result 0bxxxx so get rid of 0b
+    sum_bin = bin(sum_result)[2:].zfill(len(binhigh)) #Binary result 0bxxxx so get rid of 0b
+    print(f"Binary sum: {sum_bin}")
     
     sum_bin_comp = ""
     for num in sum_bin:
-        if num == 1:
+        if num == "1":
             num = 0
             sum_bin_comp += str(num)
         else:
             num = 1
             sum_bin_comp += str(num)
-    print(sum_bin_comp)
+    print(f"Binary sum complement: {sum_bin_comp}")
 
-    if sum_bin_comp=="0000":
+    if sum_bin_comp== "0000" or sum_bin_comp == "00000":
         print("No errors in transmission")
     else:
         print("Error in transmission")
