@@ -46,25 +46,46 @@ function check_ip_class(ip_array) {
 }
 
 function masking(ip_array, ip_class) {
-    var mask;
+    var f_mask = ['0', '0', '0', '0'];
+    var l_mask = ['0', '0', '0', '0'];
     var first_ip = [];
-    for (let i = 0; i < arr.length; i++) {
-        newArr.push(arr[i]);
+    var last_ip = [];
+    for (let i = 0; i < ip_array.length; i++) {
+        first_ip.push(ip_array[i]);
     }
+    for (let i = 0; i < ip_array.length; i++) {
+        last_ip.push(ip_array[i]);
+    }
+
     switch (ip_class) {
         case "A":
-            mask = ['255','0','0','0'];
-            if(ip_array[0]<mask[0]) {
-                ip_array[0] = mask[0];
+            f_mask = ['255','0','0','0'];
+            l_mask = ['0','255','255','255'];
+            if(ip_array[0]<f_mask[0] && ip_array[0]>l_mask[0]) {
+                first_ip[1],first_ip[2],first_ip[3] = f_mask[1],f_mask[2],f_mask[3];
+                last_ip[1],last_ip[2],last_ip[3] = l_mask[1],l_mask[2],l_mask[3];
+                return [first_ip, last_ip]
             }
             break;
         
         case "B":
-            
+            f_mask = ['255','255','0','0'];
+            l_mask = ['0','0','255','255'];
+            if(ip_array[0]<f_mask[0] && ip_array[0]>l_mask[0]) {
+                first_ip[2],first_ip[3] = mask[2],mask[3];
+                last_ip[2],last_ip[3] = l_mask[2],l_mask[3];
+                return [first_ip, last_ip]
+            }
             break;
         
         case "C":
-            
+            f_mask = ['255','255','255','0'];
+            l_mask = ['0','0','0','255'];
+            if(ip_array[0]<f_mask[0] && ip_array[0]>l_mask[0]) {
+                first_ip[3] = mask[3];
+                last_ip[3] = l_mask[3];
+                return [first_ip, last_ip]
+            }
             break;
     
         default:
@@ -82,7 +103,8 @@ if(validate_ip(input_ip)) {
         console.log("IP address is valid");
         ip_class = check_ip_class(ip_array);
         console.log("IP address belongs to class " + ip_class);
-        first_ip, last_ip = masking(ip_array, ip_class);
+        //var first_ip, last_ip = masking(ip_array, ip_class);
+        console.log(masking(ip_array, ip_class));
 
     }
     else {
