@@ -31,16 +31,16 @@ function check_ip_class(ip_array) {
     if(0<=ip_crass && ip_crass<=127) {
         return "A"
     }
-    else if(128<=ip_crass && ip_crass<=191) {
+    if(128<=ip_crass && ip_crass<=191) {
         return "B"
     }
-    else if(192<=ip_crass && ip_crass<=223) {
+    if(192<=ip_crass && ip_crass<=223) {
         return "C"
     }
-    else if(224<=ip_crass && ip_crass<=239) {
+    if(224<=ip_crass && ip_crass<=239) {
         return "D (Reserved)"
     }
-    else if(240<=ip_crass && ip_crass<=255) {
+    if(240<=ip_crass && ip_crass<=255) {
         return "E (Reserved)"
     }
 }
@@ -52,8 +52,6 @@ function masking(ip_array, ip_class) {
     var last_ip = [];
     for (let i = 0; i < ip_array.length; i++) {
         first_ip.push(ip_array[i]);
-    }
-    for (let i = 0; i < ip_array.length; i++) {
         last_ip.push(ip_array[i]);
     }
 
@@ -61,9 +59,13 @@ function masking(ip_array, ip_class) {
         case "A":
             f_mask = ['255','0','0','0'];
             l_mask = ['0','255','255','255'];
-            if(ip_array[0]<f_mask[0] && ip_array[0]>l_mask[0]) {
-                first_ip[1],first_ip[2],first_ip[3] = f_mask[1],f_mask[2],f_mask[3];
-                last_ip[1],last_ip[2],last_ip[3] = l_mask[1],l_mask[2],l_mask[3];
+            if(ip_array[0]<f_mask[0] && ip_array[0]>=l_mask[0]) {
+                first_ip[1] = f_mask[1];
+                first_ip[2] = f_mask[2];
+                first_ip[3] = f_mask[3];
+                last_ip[1] = l_mask[1];
+                last_ip[2] = l_mask[2];
+                last_ip[3] = l_mask[3];
                 return [first_ip, last_ip]
             }
             break;
@@ -72,8 +74,10 @@ function masking(ip_array, ip_class) {
             f_mask = ['255','255','0','0'];
             l_mask = ['0','0','255','255'];
             if(ip_array[0]<f_mask[0] && ip_array[0]>l_mask[0]) {
-                first_ip[2],first_ip[3] = mask[2],mask[3];
-                last_ip[2],last_ip[3] = l_mask[2],l_mask[3];
+                first_ip[2] = f_mask[2];
+                first_ip[3] = f_mask[3];
+                last_ip[2] = l_mask[2];
+                last_ip[3] = l_mask[3];
                 return [first_ip, last_ip]
             }
             break;
@@ -82,19 +86,19 @@ function masking(ip_array, ip_class) {
             f_mask = ['255','255','255','0'];
             l_mask = ['0','0','0','255'];
             if(ip_array[0]<f_mask[0] && ip_array[0]>l_mask[0]) {
-                first_ip[3] = mask[3];
+                first_ip[3] = f_mask[3];
                 last_ip[3] = l_mask[3];
                 return [first_ip, last_ip]
             }
             break;
     
         default:
-            console.log("Cannot perform masking for reserved class");
+            console.error("Cannot perform masking for reserved class");
             break;
     }
 }
 
-input_ip = prompt("Enter IPv4 address with no spaces");
+input_ip = prompt("Enter IPv4 address with no spaces ");
 ip_array = input_ip.split(".");
 
 if(validate_ip(input_ip)) {
@@ -103,14 +107,15 @@ if(validate_ip(input_ip)) {
         console.log("IP address is valid");
         ip_class = check_ip_class(ip_array);
         console.log("IP address belongs to class " + ip_class);
-        //var first_ip, last_ip = masking(ip_array, ip_class);
-        console.log(masking(ip_array, ip_class));
-
+        var masks = masking(ip_array, ip_class);
+        if (masks) {
+        console.log("First IP is ", masks[0].join('.'), "\nLast IP is ", masks[1].join('.'));
+        }
     }
     else {
-        console.log("IP address is invalid");
+        console.error("ERROR: IP address is invalid");
     }
 }
 else {
-    console.log("IP address must be 32 bit");
+    console.error("ERROR: IP address must be 32 bit");
 }
