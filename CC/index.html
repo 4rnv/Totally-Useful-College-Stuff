@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/concrete.css/3.0.0/concrete.min.css">
+    <title>Stooody</title>
+    <style>
+        body {
+            margin: 1rem;
+            color: rgb(195, 195, 195);
+            background: rgb(18, 11, 39);
+        }
+        nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+        }
+        nav > li {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+        }
+        a:hover {
+            color: palevioletred
+        }
+        form > *, input, textarea, select, fieldset, option {
+            background: rgb(18, 11, 39) !important;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact Us</a></li>
+    </nav>
+    <h1>Welcome to Stooody: Your Gateway to Engaging E-Learning!</h1>
+    <ul>
+        <li>Flexible Learning: Study at your own pace, anytime and anywhere. Our platform is designed to fit your busy lifestyle, allowing you to learn when it's most convenient for you.</li>
+        <li>Personalized Pathways: Discover courses tailored to your interests and career goals. With Stooody, you can create a customized learning journey that suits your needs.</li>
+        <li>Community Support: Join a vibrant community of learners and educators. Share ideas, ask questions, and collaborate with others who are just as passionate about learning as you are.</li>
+    </ul>
+    <div>
+        <h2>Browse Topics</h2>
+        <p style="text-align: center; font-family: 'Courier New', Courier, monospace;">Coming soon...</p>
+    </div>
+    <form method="post">
+        <fieldset>
+          <legend>Register for future updates</legend>
+          <div class="row">
+            <div class="column">
+              <label for="firstname">First Name</label>
+              <input type="text" name="firstname" id="firstname">
+            </div>
+            <div class="column">
+              <label for="lastname">Last Name</label>
+              <input type="text" name="lastname" id="lastname">
+            </div>
+            <div class="column">
+                <label for="Email">Email</label>
+                <input type="email" name="email" id="email">
+            </div>
+          </div>
+          <label for="os">Education level</label>
+          <select name="os" id="os">
+            <option value="High School">High School</option>
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Post-Graduate">Post-Graduate</option>
+            <option value="Illiterate">Illiterate</option>
+            <option value="Educator">Educator</option>
+          </select>
+          <label for="comment">Comment</label>
+          <textarea name="comment" id="comment" placeholder="Please leave a comment..."></textarea>
+          <input type="submit" value="Send">
+        </fieldset>
+      </form>
+</body>
+</html>
