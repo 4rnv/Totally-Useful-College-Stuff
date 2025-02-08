@@ -68,7 +68,7 @@ public class Client {
                     try {
                         int availableTickets = reservationService.getAvailableTickets();
                         System.out.println("Available Tickets: " + availableTickets);
-                    } catch (Error e) {
+                    } catch (Exception e) {
                         System.out.println("Error retrieving available tickets: " + e.getMessage());
                     }
                     break;
