@@ -1,5 +1,6 @@
 package main
 
+// Berkeley algorithm for clock synchronization
 import (
 	"fmt"
 	"math/rand/v2"
@@ -26,8 +27,8 @@ func Client() {
 	for ix := 0; ix < connect.NUM_CLIENTS; ix++ {
 		random = (rand.IntN(2001)) - 1000
 		client_time = now + random
-		fmt.Printf("[Client%d] Random number is: %d\n", ix, random)
-		fmt.Printf("Client%d Time is: %d\n", ix, client_time)
+		fmt.Printf("Client%d Random number is: %d\n", ix, random)
+		fmt.Printf("[Client%d] Time is: %d\n", ix, client_time)
 		client_times = append(client_times, client_time)
 		_, err = connection.Write([]byte(strconv.Itoa(client_time)))
 		if err != nil {
@@ -40,7 +41,7 @@ func Client() {
 		}
 		if ix == connect.NUM_CLIENTS-1 {
 			adjustments_str = string(buffer[:mLen])
-			fmt.Printf("[Client%d] Received adjustments: %v \n", ix, adjustments_str)
+			fmt.Printf("Received adjustments from time server: %v \n", adjustments_str)
 		}
 	}
 	adjustments := strings.Split(adjustments_str, ",")

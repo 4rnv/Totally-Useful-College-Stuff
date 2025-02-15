@@ -11,7 +11,6 @@ import (
 	"berkeley/connect"
 )
 
-var client_times []int
 var cv_array []int
 
 func Server() {
@@ -39,7 +38,7 @@ func process_client(connection net.Conn) {
 	buffer := make([]byte, 1024)
 	var server_time, cv, client_time int
 	server_time = int(time.Now().Unix())
-	fmt.Println(server_time)
+	fmt.Println("Server Time: ", server_time)
 
 	for ix := 0; ix < connect.NUM_CLIENTS; ix++ {
 		mLen, err := connection.Read(buffer)
@@ -50,12 +49,11 @@ func process_client(connection net.Conn) {
 		message := strings.TrimSpace(string(buffer[:mLen]))
 		fmt.Println("[Time Server] Received time from client :=", message)
 		client_time, _ = strconv.Atoi(message)
-		client_times = append(client_times, client_time)
 		cv = client_time - server_time
 		cv_array = append(cv_array, cv)
 		if ix == connect.NUM_CLIENTS-1 {
 			new_cv_array := calc_average(cv_array)
-			adjusted_server_time := float64(server_time) + new_cv_array[connect.NUM_CLIENTS-1]
+			adjusted_server_time := float64(server_time) + new_cv_array[connect.NUM_CLIENTS]
 			fmt.Printf("Adjusted Server Time: %f\n", adjusted_server_time)
 			var new_cv_array_str []string
 			for _, val := range new_cv_array[:len(new_cv_array)-1] {
@@ -75,7 +73,6 @@ func process_client(connection net.Conn) {
 			}
 		}
 	}
-	client_times = []int{}
 	cv_array = []int{}
 }
 
@@ -88,7 +85,7 @@ func calc_average(cv_array []int) []float64 {
 		sum += cv
 	}
 	caf := float64(sum) / float64(len(all_times))
-	fmt.Println("CAF: ", caf)
+	fmt.Println("Clock Adjustment Factor (CAF): ", caf)
 	for _, cv := range all_times {
 		new_cv := caf - float64(cv)
 		new_cv_array = append(new_cv_array, new_cv)
