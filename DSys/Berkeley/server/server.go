@@ -38,14 +38,9 @@ func process_client(connection net.Conn) {
 	defer connection.Close()
 	buffer := make([]byte, 1024)
 	var server_time, cv, client_time int
-	//var new_cv_array []float64
 	server_time = int(time.Now().Unix())
 	fmt.Println(server_time)
-	// _, err := connection.Read(buffer)
-	// if err != nil {
-	// 	fmt.Println("[Time Server] Error reading: ", err.Error())
-	// 	return
-	// }
+
 	for ix := 0; ix < connect.NUM_CLIENTS; ix++ {
 		mLen, err := connection.Read(buffer)
 		if err != nil {
@@ -73,7 +68,7 @@ func process_client(connection net.Conn) {
 				return
 			}
 		} else {
-			_, err = connection.Write([]byte("Conne-ACK!"))
+			_, err = connection.Write([]byte("ACK"))
 			if err != nil {
 				fmt.Println("[Time Server] Error writing: ", err.Error())
 				return

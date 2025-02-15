@@ -17,9 +17,11 @@ func Client() {
 		panic(err)
 	}
 	defer connection.Close()
+
 	var now, random, client_time int
 	var adjustments_str string
 	var client_times []int
+
 	now = int(time.Now().Unix())
 	for ix := 0; ix < connect.NUM_CLIENTS; ix++ {
 		random = (rand.IntN(2001)) - 1000
@@ -49,8 +51,6 @@ func Client() {
 		adjusted_client_times[i] = float64(client_times[i]) + adjustment
 		fmt.Printf("New time for client%d is: %f\n", i, adjusted_client_times[i])
 	}
-	// adjusted_time := float64(client_time) + adjustment
-	// fmt.Printf("[Client] Adjusted time: %v\n", adjusted_time)
 }
 
 func main() {
